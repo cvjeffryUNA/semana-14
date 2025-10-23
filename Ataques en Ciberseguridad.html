@@ -1,0 +1,3045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ataques en Ciberseguridad: El Enemigo Invisible - UNA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        :root {
+          --una-red: #cd1719;
+          --una-red-light: #e63946;
+          --una-red-dark: #a01315;
+          --text-dark: #2d3748;
+          --text-light: #718096;
+          --bg-light: #f7fafc;
+          --white: #ffffff;
+          --success: #48bb78;
+          --warning: #ed8936;
+          --danger: #f56565;
+          --info: #4299e1;
+        }
+
+        body {
+          font-family: "Inter", sans-serif;
+          line-height: 1.6;
+          color: var(--text-dark);
+          overflow-x: hidden;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          z-index: 1000;
+          padding: 1rem 0;
+          transition: all 0.3s ease;
+          border-bottom: 1px solid rgba(205, 23, 25, 0.1);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .logo-placeholder {
+          width: 40px;
+          height: 40px;
+          background: var(--una-red);
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 1.2rem;
+        }
+
+        .nav-links {
+          display: flex;
+          list-style: none;
+          gap: 2rem;
+        }
+
+        .nav-links a {
+          text-decoration: none;
+          color: var(--text-dark);
+          font-weight: 500;
+          transition: color 0.3s ease;
+          position: relative;
+        }
+
+        .nav-links a::after {
+          content: "";
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: var(--una-red);
+          transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+          color: var(--una-red);
+        }
+
+        .nav-links a:hover::after {
+          width: 100%;
+        }
+
+        .mobile-menu-btn {
+          display: none;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          color: var(--una-red);
+          cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+          min-height: 100vh;
+          background: linear-gradient(135deg, var(--una-red) 0%, var(--una-red-dark) 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          color: white;
+          position: relative;
+          overflow: hidden;
+          padding-top: 80px;
+        }
+
+        .hero::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+          opacity: 0.3;
+        }
+
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          animation: fadeInUp 1s ease-out;
+          max-width: 900px;
+          padding: 2rem;
+        }
+
+        .hero-icon {
+          font-size: 5rem;
+          margin-bottom: 1rem;
+          animation: float 3s ease-in-out infinite;
+        }
+
+        .hero h1 {
+          font-size: 4rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .subtitle {
+          font-size: 1.8rem;
+          font-weight: 300;
+          margin-bottom: 1rem;
+          opacity: 0.9;
+        }
+
+        .hero-description {
+          font-size: 1.2rem;
+          margin-bottom: 2rem;
+          opacity: 0.85;
+        }
+
+        .cta-button {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 1rem 2.5rem;
+          background: white;
+          color: var(--una-red);
+          text-decoration: none;
+          border-radius: 50px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          font-size: 1.1rem;
+        }
+
+        .cta-button:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-stats {
+          display: flex;
+          justify-content: center;
+          gap: 3rem;
+          margin-top: 3rem;
+          flex-wrap: wrap;
+        }
+
+        .stat-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.9rem;
+          opacity: 0.9;
+        }
+
+        .stat-item i {
+          font-size: 1.2rem;
+        }
+
+        /* Particles Effect */
+        .hero-particles {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          z-index: 1;
+        }
+
+        /* Section Styles */
+        .section {
+          padding: 6rem 0;
+          position: relative;
+          background: white;
+        }
+
+        .section-dark {
+          background: var(--bg-light);
+        }
+
+        .section-title {
+          text-align: center;
+          font-size: 3rem;
+          font-weight: 700;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        }
+
+        .section-title i {
+          font-size: 2.5rem;
+        }
+
+        .section-intro {
+          text-align: center;
+          font-size: 1.2rem;
+          color: var(--text-light);
+          margin-bottom: 4rem;
+        }
+
+        .section-separator {
+          height: 2px;
+          background: linear-gradient(to right, transparent, var(--una-red), transparent);
+          margin: 0;
+        }
+
+        /* Concepts Section */
+        .concepts-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-bottom: 4rem;
+        }
+
+        .concept-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          border-top: 5px solid var(--una-red);
+        }
+
+        .concept-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .concept-icon {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.5rem;
+          font-size: 2rem;
+          color: white;
+        }
+
+        .concept-icon.threat {
+          background: linear-gradient(135deg, #f56565, #c53030);
+        }
+
+        .concept-icon.vulnerability {
+          background: linear-gradient(135deg, #ed8936, #c05621);
+        }
+
+        .concept-icon.attack {
+          background: linear-gradient(135deg, #ecc94b, #d69e2e);
+        }
+
+        .concept-card h3 {
+          color: var(--una-red);
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          text-align: center;
+        }
+
+        .concept-definition {
+          text-align: center;
+          margin-bottom: 1.5rem;
+          color: var(--text-dark);
+        }
+
+        .concept-details {
+          background: var(--bg-light);
+          padding: 1rem;
+          border-radius: 10px;
+          font-size: 0.9rem;
+        }
+
+        .concept-details p {
+          margin-bottom: 0.5rem;
+        }
+
+        /* Analogy Section */
+        .analogy-section {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          padding: 3rem;
+          border-radius: 20px;
+          color: white;
+          margin: 4rem 0;
+        }
+
+        .analogy-title {
+          text-align: center;
+          font-size: 2rem;
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        }
+
+        .analogy-grid {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .analogy-item {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          padding: 2rem;
+          border-radius: 15px;
+          text-align: center;
+          flex: 1;
+          min-width: 200px;
+        }
+
+        .analogy-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .analogy-item h4 {
+          font-size: 1.3rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .analogy-arrow {
+          font-size: 2rem;
+          opacity: 0.7;
+        }
+
+        /* Question Box */
+        .question-box {
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          margin-top: 4rem;
+          border-left: 5px solid var(--una-red);
+        }
+
+        .question-icon {
+          font-size: 3rem;
+          color: var(--una-red);
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+
+        .question-box h3 {
+          text-align: center;
+          color: var(--una-red);
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .question-text {
+          text-align: center;
+          font-size: 1.3rem;
+          margin-bottom: 2rem;
+          color: var(--text-dark);
+          font-weight: 500;
+        }
+
+        .motivation-options {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2rem;
+        }
+
+        .motivation-card {
+          text-align: center;
+          padding: 1.5rem;
+          background: var(--bg-light);
+          border-radius: 15px;
+          transition: all 0.3s ease;
+        }
+
+        .motivation-card:hover {
+          transform: scale(1.05);
+          background: var(--una-red);
+          color: white;
+        }
+
+        .motivation-card i {
+          font-size: 2.5rem;
+          margin-bottom: 0.5rem;
+          color: var(--una-red);
+        }
+
+        .motivation-card:hover i {
+          color: white;
+        }
+
+        .motivation-card span {
+          display: block;
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .motivation-card p {
+          font-size: 0.9rem;
+          opacity: 0.8;
+        }
+
+        /* CIA Triad */
+        .cia-triad {
+          margin-bottom: 4rem;
+        }
+
+        .subsection-title {
+          font-size: 2rem;
+          color: var(--una-red);
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .cia-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .cia-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        .cia-card:hover {
+          transform: translateY(-10px);
+        }
+
+        .cia-card.confidentiality {
+          border-top: 5px solid #4299e1;
+        }
+
+        .cia-card.integrity {
+          border-top: 5px solid #48bb78;
+        }
+
+        .cia-card.availability {
+          border-top: 5px solid #ed8936;
+        }
+
+        .cia-icon {
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1rem;
+          font-size: 2rem;
+          color: white;
+        }
+
+        .cia-card.confidentiality .cia-icon {
+          background: #4299e1;
+        }
+
+        .cia-card.integrity .cia-icon {
+          background: #48bb78;
+        }
+
+        .cia-card.availability .cia-icon {
+          background: #ed8936;
+        }
+
+        .cia-card h4 {
+          text-align: center;
+          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          color: var(--text-dark);
+        }
+
+        .cia-description {
+          text-align: center;
+          margin-bottom: 1.5rem;
+          color: var(--text-light);
+        }
+
+        .cia-example {
+          background: var(--bg-light);
+          padding: 1rem;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+        }
+
+        .cia-example strong {
+          color: var(--una-red);
+        }
+
+        .cia-impact {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: var(--danger);
+          font-size: 0.9rem;
+        }
+
+        /* Technique Comparison */
+        .technique-section {
+          margin-top: 4rem;
+        }
+
+        .technique-comparison {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .technique-card {
+          flex: 1;
+          min-width: 300px;
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .technique-card.passive {
+          border-top: 5px solid #805ad5;
+        }
+
+        .technique-card.active {
+          border-top: 5px solid #f56565;
+        }
+
+        .technique-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .technique-header i {
+          font-size: 2rem;
+          color: var(--una-red);
+        }
+
+        .technique-header h4 {
+          font-size: 1.5rem;
+          color: var(--text-dark);
+        }
+
+        .technique-description {
+          margin-bottom: 1.5rem;
+          color: var(--text-light);
+        }
+
+        .technique-list {
+          list-style: none;
+          margin-bottom: 1.5rem;
+        }
+
+        .technique-list li {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .technique-list i {
+          color: var(--success);
+        }
+
+        .technique-feature {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: var(--bg-light);
+          padding: 1rem;
+          border-radius: 10px;
+          font-weight: 600;
+        }
+
+        .technique-divider {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--una-red);
+        }
+
+        /* Guided Questions */
+        .guided-questions {
+          margin-top: 4rem;
+        }
+
+        .questions-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .question-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          position: relative;
+        }
+
+        .question-number {
+          position: absolute;
+          top: -20px;
+          left: 20px;
+          width: 50px;
+          height: 50px;
+          background: var(--una-red);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.5rem;
+          font-weight: 700;
+          box-shadow: 0 5px 15px rgba(205, 23, 25, 0.3);
+        }
+
+        .question-card p {
+          font-size: 1.1rem;
+          margin-top: 1rem;
+          color: var(--text-dark);
+        }
+
+        .question-hint {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 1rem;
+          color: var(--text-light);
+          font-size: 0.9rem;
+          font-style: italic;
+        }
+
+        /* Attacks Grid */
+        .attacks-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+          margin-bottom: 4rem;
+        }
+
+        .attack-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+        }
+
+        .attack-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .attack-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 1rem;
+        }
+
+        .attack-icon {
+          width: 60px;
+          height: 60px;
+          background: var(--una-red);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 1.5rem;
+        }
+
+        .attack-header h3 {
+          flex: 1;
+          margin-left: 1rem;
+          color: var(--text-dark);
+          font-size: 1.5rem;
+        }
+
+        .attack-badge {
+          padding: 0.3rem 0.8rem;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: white;
+        }
+
+        .attack-badge.high {
+          background: #f56565;
+        }
+
+        .attack-badge.medium {
+          background: #ed8936;
+        }
+
+        .attack-badge.low {
+          background: #48bb78;
+        }
+
+        .attack-description {
+          margin-bottom: 1.5rem;
+          color: var(--text-light);
+        }
+
+        .attack-example {
+          background: #fff5f5;
+          padding: 1rem;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+          border-left: 3px solid var(--danger);
+        }
+
+        .attack-example strong {
+          color: var(--danger);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .attack-signals {
+          background: var(--bg-light);
+          padding: 1rem;
+          border-radius: 10px;
+        }
+
+        .attack-signals strong {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: var(--text-dark);
+        }
+
+        .attack-signals ul {
+          list-style: none;
+        }
+
+        .attack-signals li {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.3rem;
+          font-size: 0.9rem;
+        }
+
+        .attack-signals .fa-times-circle {
+          color: var(--danger);
+        }
+
+        .attack-signals .fa-check-circle {
+          color: var(--success);
+        }
+
+        /* Practical Activity */
+        .practical-activity {
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          margin-top: 4rem;
+        }
+
+        .activity-title {
+          font-size: 2rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .activity-intro {
+          text-align: center;
+          font-size: 1.1rem;
+          margin-bottom: 2rem;
+          color: var(--text-light);
+        }
+
+        .email-comparison {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .email-card {
+          background: var(--bg-light);
+          border-radius: 15px;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .email-header {
+          background: var(--una-red);
+          color: white;
+          padding: 1rem;
+          text-align: center;
+        }
+
+        .email-label {
+          font-weight: 600;
+          font-size: 1.2rem;
+        }
+
+        .email-content {
+          padding: 1.5rem;
+          background: white;
+        }
+
+        .email-content p {
+          margin-bottom: 0.5rem;
+        }
+
+        .email-body {
+          margin-top: 1rem;
+          padding: 1rem;
+          background: var(--bg-light);
+          border-radius: 10px;
+          line-height: 1.8;
+        }
+
+        .email-analysis {
+          padding: 1rem;
+          text-align: center;
+        }
+
+        .analyze-btn {
+          padding: 0.8rem 2rem;
+          background: var(--una-red);
+          color: white;
+          border: none;
+          border-radius: 25px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .analyze-btn:hover {
+          background: var(--una-red-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(205, 23, 25, 0.3);
+        }
+
+        .analysis-result {
+          background: white;
+          padding: 2rem;
+          border-radius: 15px;
+          margin-top: 2rem;
+          border-left: 5px solid var(--success);
+        }
+
+        /* System Attacks Grid */
+        .system-attacks-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+          margin-bottom: 4rem;
+        }
+
+        .system-attack-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          border-top: 5px solid var(--una-red);
+        }
+
+        .system-attack-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .system-attack-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .system-attack-header i {
+          font-size: 2.5rem;
+          color: var(--una-red);
+        }
+
+        .system-attack-header h3 {
+          font-size: 1.5rem;
+          color: var(--text-dark);
+        }
+
+        .system-attack-type {
+          font-size: 0.9rem;
+          color: var(--text-light);
+          font-weight: 600;
+          text-transform: uppercase;
+          margin-bottom: 1rem;
+        }
+
+        .system-attack-description {
+          margin-bottom: 1.5rem;
+          line-height: 1.8;
+        }
+
+        .system-attack-example {
+          background: #fff5f5;
+          padding: 1rem;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+          border-left: 3px solid var(--una-red);
+        }
+
+        .system-attack-example i {
+          color: var(--una-red);
+          margin-right: 0.5rem;
+        }
+
+        .system-attack-example strong {
+          color: var(--una-red);
+        }
+
+        .system-attack-impact {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .impact-badge {
+          display: inline-block;
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: white;
+          text-align: center;
+        }
+
+        .impact-badge.critical {
+          background: #f56565;
+        }
+
+        .impact-badge.high {
+          background: #ed8936;
+        }
+
+        .impact-badge.medium {
+          background: #ecc94b;
+          color: var(--text-dark);
+        }
+
+        /* Reflection Box */
+        .reflection-box {
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+
+        .reflection-icon {
+          font-size: 3rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+        }
+
+        .reflection-box h3 {
+          font-size: 2rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+        }
+
+        .reflection-question {
+          font-size: 1.3rem;
+          margin-bottom: 2rem;
+          color: var(--text-dark);
+          font-weight: 500;
+        }
+
+        .reflection-stats {
+          display: flex;
+          justify-content: center;
+          gap: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .reflection-stats .stat-item {
+          background: var(--bg-light);
+          padding: 1rem 1.5rem;
+          border-radius: 15px;
+          color: var(--text-dark);
+        }
+
+        /* Defense Grid */
+        .defense-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-bottom: 4rem;
+        }
+
+        .defense-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 20px;
+          box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
+          border-top: 5px solid var(--success);
+        }
+
+        .defense-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .defense-icon {
+          width: 70px;
+          height: 70px;
+          background: var(--success);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-size: 2rem;
+          margin: 0 auto 1rem;
+        }
+
+        .defense-card h3 {
+          text-align: center;
+          color: var(--text-dark);
+          font-size: 1.3rem;
+          margin-bottom: 1rem;
+        }
+
+        .defense-card p {
+          text-align: center;
+          color: var(--text-light);
+          margin-bottom: 1rem;
+        }
+
+        .defense-importance {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+
+        .defense-importance.high {
+          color: var(--danger);
+        }
+
+        .defense-importance.medium {
+          color: var(--warning);
+        }
+
+        /* Password Checker */
+        .password-checker {
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          margin-bottom: 4rem;
+        }
+
+        .checker-title {
+          font-size: 2rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+        }
+
+        .password-checker > p {
+          text-align: center;
+          margin-bottom: 2rem;
+          color: var(--text-light);
+        }
+
+        .checker-input {
+          display: flex;
+          gap: 1rem;
+          max-width: 500px;
+          margin: 0 auto 1rem;
+        }
+
+        .checker-input input {
+          flex: 1;
+          padding: 1rem;
+          border: 2px solid var(--bg-light);
+          border-radius: 10px;
+          font-size: 1rem;
+          transition: border-color 0.3s ease;
+        }
+
+        .checker-input input:focus {
+          outline: none;
+          border-color: var(--una-red);
+        }
+
+        .checker-input button {
+          padding: 1rem;
+          background: var(--una-red);
+          color: white;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .checker-input button:hover {
+          background: var(--una-red-dark);
+        }
+
+        .password-strength {
+          max-width: 500px;
+          margin: 0 auto 2rem;
+          padding: 1rem;
+          border-radius: 10px;
+          text-align: center;
+          font-weight: 600;
+        }
+
+        .password-tips {
+          background: var(--bg-light);
+          padding: 2rem;
+          border-radius: 15px;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        .password-tips h4 {
+          color: var(--una-red);
+          margin-bottom: 1rem;
+        }
+
+        .password-tips ul {
+          list-style: none;
+        }
+
+        .password-tips li {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .password-tips i {
+          color: var(--success);
+        }
+
+        /* Debate Box */
+        .debate-box {
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+          text-align: center;
+        }
+
+        .debate-icon {
+          font-size: 3rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+        }
+
+        .debate-box h3 {
+          font-size: 2rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+        }
+
+        .debate-question {
+          font-size: 1.3rem;
+          margin-bottom: 2rem;
+          color: var(--text-dark);
+          font-weight: 500;
+        }
+
+        .debate-options {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 2rem;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+        }
+
+        .debate-option {
+          flex: 1;
+          min-width: 250px;
+          background: var(--bg-light);
+          padding: 2rem;
+          border-radius: 15px;
+          transition: all 0.3s ease;
+        }
+
+        .debate-option:hover {
+          transform: scale(1.05);
+          background: var(--una-red);
+          color: white;
+        }
+
+        .debate-option i {
+          font-size: 3rem;
+          color: var(--una-red);
+          margin-bottom: 1rem;
+        }
+
+        .debate-option:hover i {
+          color: white;
+        }
+
+        .debate-option h4 {
+          font-size: 1.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .debate-vs {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--una-red);
+        }
+
+        .debate-conclusion {
+          background: #f0fff4;
+          padding: 1.5rem;
+          border-radius: 15px;
+          border-left: 5px solid var(--success);
+          text-align: left;
+        }
+
+        .debate-conclusion strong {
+          color: var(--success);
+        }
+
+        /* Case Study */
+        .case-study {
+          background: white;
+          padding: 3rem;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .case-header {
+          background: var(--una-red);
+          color: white;
+          padding: 2rem;
+          border-radius: 15px;
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .case-header i {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .case-header h3 {
+          font-size: 2rem;
+        }
+
+        .case-scenario {
+          background: #fff5f5;
+          padding: 2rem;
+          border-radius: 15px;
+          margin-bottom: 2rem;
+          border-left: 5px solid var(--danger);
+        }
+
+        .case-scenario h4 {
+          color: var(--una-red);
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .case-scenario p {
+          line-height: 1.8;
+          font-size: 1.1rem;
+        }
+
+        .case-tasks {
+          margin-bottom: 2rem;
+        }
+
+        .case-tasks h4 {
+          color: var(--una-red);
+          margin-bottom: 1.5rem;
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .tasks-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .task-card {
+          background: var(--bg-light);
+          padding: 2rem;
+          border-radius: 15px;
+          position: relative;
+        }
+
+        .task-number {
+          position: absolute;
+          top: -15px;
+          left: 20px;
+          width: 40px;
+          height: 40px;
+          background: var(--una-red);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+
+        .task-card h5 {
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+          color: var(--text-dark);
+          font-size: 1.2rem;
+        }
+
+        .task-card p {
+          margin-bottom: 1rem;
+          color: var(--text-light);
+        }
+
+        .hint-btn {
+          padding: 0.5rem 1rem;
+          background: var(--info);
+          color: white;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .hint-btn:hover {
+          background: #3182ce;
+          transform: translateY(-2px);
+        }
+
+        .case-questions {
+          margin-bottom: 2rem;
+        }
+
+        .case-questions h4 {
+          color: var(--una-red);
+          margin-bottom: 1.5rem;
+          font-size: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .discussion-questions {
+          display: grid;
+          gap: 1rem;
+        }
+
+        .discussion-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          background: var(--bg-light);
+          padding: 1.5rem;
+          border-radius: 15px;
+        }
+
+        .discussion-item i {
+          font-size: 1.5rem;
+          color: var(--una-red);
+          margin-top: 0.2rem;
+        }
+
+        .discussion-item p {
+          flex: 1;
+          font-size: 1.1rem;
+        }
+
+        .hint-display {
+          background: #e6fffa;
+          padding: 1.5rem;
+          border-radius: 15px;
+          margin-top: 2rem;
+          border-left: 5px solid var(--info);
+        }
+
+        .case-solution {
+          margin-top: 3rem;
+          text-align: center;
+        }
+
+        .solution-btn {
+          padding: 1rem 2rem;
+          background: var(--success);
+          color: white;
+          border: none;
+          border-radius: 25px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .solution-btn:hover {
+          background: #38a169;
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .solution-content {
+          background: #f0fff4;
+          padding: 2rem;
+          border-radius: 15px;
+          margin-top: 2rem;
+          text-align: left;
+          border-left: 5px solid var(--success);
+        }
+
+        .solution-content h4 {
+          color: var(--success);
+          font-size: 1.8rem;
+          margin-bottom: 2rem;
+        }
+
+        .solution-section {
+          margin-bottom: 2rem;
+        }
+
+        .solution-section h5 {
+          color: var(--una-red);
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .solution-section ul,
+        .solution-section ol {
+          margin-left: 1.5rem;
+        }
+
+        .solution-section li {
+          margin-bottom: 0.5rem;
+          line-height: 1.6;
+        }
+
+        .solution-warning {
+          background: #fff5f5;
+          padding: 1.5rem;
+          border-radius: 10px;
+          border-left: 5px solid var(--danger);
+          margin-top: 2rem;
+        }
+
+        .solution-warning i {
+          color: var(--danger);
+          margin-right: 0.5rem;
+        }
+
+        /* Conclusion Section */
+        .conclusion-section {
+          background: linear-gradient(135deg, var(--una-red) 0%, var(--una-red-dark) 100%);
+          color: white;
+        }
+
+        .conclusion-content {
+          text-align: center;
+        }
+
+        .conclusion-icon {
+          font-size: 4rem;
+          margin-bottom: 1rem;
+        }
+
+        .conclusion-content h2 {
+          font-size: 3rem;
+          margin-bottom: 3rem;
+        }
+
+        .key-takeaways {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-bottom: 3rem;
+        }
+
+        .takeaway-item {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          padding: 2rem;
+          border-radius: 15px;
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          text-align: left;
+        }
+
+        .takeaway-item i {
+          font-size: 1.5rem;
+          color: var(--success);
+          margin-top: 0.2rem;
+        }
+
+        .takeaway-item p {
+          flex: 1;
+          font-size: 1.1rem;
+        }
+
+        .final-quote {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          padding: 3rem;
+          border-radius: 20px;
+          position: relative;
+        }
+
+        .final-quote i {
+          font-size: 3rem;
+          opacity: 0.3;
+          position: absolute;
+          top: 1rem;
+          left: 2rem;
+        }
+
+        .final-quote p {
+          font-size: 1.8rem;
+          font-style: italic;
+          margin-bottom: 1rem;
+          position: relative;
+          z-index: 2;
+        }
+
+        .final-quote span {
+          font-size: 1.2rem;
+          opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes float {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        .fade-in {
+          opacity: 0;
+          transform: translateY(30px);
+          transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
+          }
+
+          .mobile-menu-btn {
+            display: block;
+          }
+
+          .hero h1 {
+            font-size: 2.5rem;
+          }
+
+          .hero .subtitle {
+            font-size: 1.3rem;
+          }
+
+          .hero-stats {
+            flex-direction: column;
+            gap: 1rem;
+          }
+
+          .section-title {
+            font-size: 2rem;
+          }
+
+          .section {
+            padding: 4rem 0;
+          }
+
+          .concepts-grid,
+          .attacks-grid,
+          .system-attacks-grid,
+          .defense-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .email-comparison {
+            grid-template-columns: 1fr;
+          }
+
+          .analogy-grid {
+            flex-direction: column;
+          }
+
+          .analogy-arrow {
+            transform: rotate(90deg);
+          }
+
+          .technique-comparison {
+            flex-direction: column;
+          }
+
+          .technique-divider {
+            transform: rotate(90deg);
+          }
+
+          .debate-options {
+            flex-direction: column;
+          }
+
+          .debate-vs {
+            transform: rotate(90deg);
+          }
+
+          .tasks-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <div class="logo-placeholder">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span style="font-weight: 600; color: var(--una-red); margin-left: 10px;">Ciberseguridad UNA</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#conceptos">Conceptos</a></li>
+                    <li><a href="#clasificacion">Clasificación</a></li>
+                    <li><a href="#ataques">Tipos de Ataques</a></li>
+                    <li><a href="#defensa">Defensa</a></li>
+                    <li><a href="#caso-practico">Caso Práctico</a></li>
+                </ul>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <i class="fas fa-user-secret"></i>
+            </div>
+            <h1>Ataques en Ciberseguridad</h1>
+            <p class="subtitle">El Enemigo Invisible</p>
+            <!-- Added author name -->
+            <div class="hero-description">
+                <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Ing. Jeffry Carballo Vargas, Mag.</p>
+                <p>Descubre cómo proteger tu información en el mundo digital</p>
+            </div>
+            <a href="#conceptos" class="cta-button">
+                <span>Comenzar Exploración</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Millones de ataques diarios</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Cada 39 segundos un ataque</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span>Billones en pérdidas anuales</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-particles" id="particles"></div>
+    </section>
+
+    <!-- Section Separator -->
+    <div class="section-separator"></div>
+
+    <!-- Conceptos Clave Section -->
+    <section id="conceptos" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-book-open"></i>
+                Conceptos Clave
+            </h2>
+            <p class="section-intro fade-in">Entendiendo los fundamentos de la ciberseguridad</p>
+            
+            <div class="concepts-grid fade-in">
+                <div class="concept-card" data-concept="amenaza">
+                    <div class="concept-icon threat">
+                        <i class="fas fa-skull-crossbones"></i>
+                    </div>
+                    <h3>Amenaza</h3>
+                    <p class="concept-definition">Posibilidad de que ocurra un daño o evento adverso en un sistema informático.</p>
+                    <div class="concept-details">
+                        <p><strong>Ejemplo:</strong> Un hacker intentando acceder a tu red</p>
+                        <p><strong>Impacto:</strong> Potencial compromiso de seguridad</p>
+                    </div>
+                </div>
+
+                <div class="concept-card" data-concept="vulnerabilidad">
+                    <div class="concept-icon vulnerability">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3>Vulnerabilidad</h3>
+                    <p class="concept-definition">Debilidad o fallo en un sistema que puede ser explotado por una amenaza.</p>
+                    <div class="concept-details">
+                        <p><strong>Ejemplo:</strong> Software desactualizado con fallos de seguridad</p>
+                        <p><strong>Impacto:</strong> Puerta de entrada para ataques</p>
+                    </div>
+                </div>
+
+                <div class="concept-card" data-concept="ataque">
+                    <div class="concept-icon attack">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Ataque</h3>
+                    <p class="concept-definition">Acción intencionada que explota una vulnerabilidad para causar daño.</p>
+                    <div class="concept-details">
+                        <p><strong>Ejemplo:</strong> Ransomware que cifra tus archivos</p>
+                        <p><strong>Impacto:</strong> Daño real y pérdida de datos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analogía Visual -->
+            <div class="analogy-section fade-in">
+                <h3 class="analogy-title">
+                    <i class="fas fa-lightbulb"></i>
+                    Analogía: La Casa Sin Cerradura
+                </h3>
+                <div class="analogy-grid">
+                    <div class="analogy-item">
+                        <div class="analogy-icon">
+                            <i class="fas fa-door-open"></i>
+                        </div>
+                        <h4>Vulnerabilidad</h4>
+                        <p>Una casa sin cerradura en la puerta</p>
+                    </div>
+                    <div class="analogy-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="analogy-item">
+                        <div class="analogy-icon">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <h4>Amenaza</h4>
+                        <p>Un ladrón merodeando el vecindario</p>
+                    </div>
+                    <div class="analogy-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="analogy-item">
+                        <div class="analogy-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h4>Ataque</h4>
+                        <p>El robo efectivo de tus pertenencias</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pregunta Detonadora -->
+            <div class="question-box fade-in">
+                <div class="question-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3>Pregunta para Reflexionar</h3>
+                <p class="question-text">¿Qué crees que motiva a un atacante informático: dinero, poder o curiosidad?</p>
+                <div class="motivation-options">
+                    <div class="motivation-card">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Dinero</span>
+                        <p>Ransomware, robo de datos bancarios</p>
+                    </div>
+                    <div class="motivation-card">
+                        <i class="fas fa-crown"></i>
+                        <span>Poder</span>
+                        <p>Espionaje, sabotaje político</p>
+                    </div>
+                    <div class="motivation-card">
+                        <i class="fas fa-brain"></i>
+                        <span>Curiosidad</span>
+                        <p>Hackers éticos, investigadores</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clasificación Section -->
+    <section id="clasificacion" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-layer-group"></i>
+                Clasificación de Ataques
+            </h2>
+            <p class="section-intro fade-in">Entendiendo los diferentes tipos según su objetivo y técnica</p>
+
+            <!-- Según el Objetivo: Tríada CIA -->
+            <div class="cia-triad fade-in">
+                <h3 class="subsection-title">
+                    <i class="fas fa-bullseye"></i>
+                    Según el Objetivo: La Tríada CIA
+                </h3>
+                <div class="cia-grid">
+                    <div class="cia-card confidentiality">
+                        <div class="cia-icon">
+                            <i class="fas fa-eye-slash"></i>
+                        </div>
+                        <h4>Confidencialidad</h4>
+                        <p class="cia-description">Robo de datos o información privada</p>
+                        <div class="cia-example">
+                            <strong>Ejemplo:</strong>
+                            <p>Fuga de bases de datos con información de clientes</p>
+                        </div>
+                        <div class="cia-impact">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Exposición de información sensible</span>
+                        </div>
+                    </div>
+
+                    <div class="cia-card integrity">
+                        <div class="cia-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h4>Integridad</h4>
+                        <p class="cia-description">Alteración de información legítima</p>
+                        <div class="cia-example">
+                            <strong>Ejemplo:</strong>
+                            <p>Modificación de calificaciones en sistema académico</p>
+                        </div>
+                        <div class="cia-impact">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Datos corruptos o manipulados</span>
+                        </div>
+                    </div>
+
+                    <div class="cia-card availability">
+                        <div class="cia-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h4>Disponibilidad</h4>
+                        <p class="cia-description">Interrupción de servicios</p>
+                        <div class="cia-example">
+                            <strong>Ejemplo:</strong>
+                            <p>Ataque DDoS que tumba un servidor web</p>
+                        </div>
+                        <div class="cia-impact">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Servicios inaccesibles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Según la Técnica -->
+            <div class="technique-section fade-in">
+                <h3 class="subsection-title">
+                    <i class="fas fa-tools"></i>
+                    Según la Técnica
+                </h3>
+                <div class="technique-comparison">
+                    <div class="technique-card passive">
+                        <div class="technique-header">
+                            <i class="fas fa-binoculars"></i>
+                            <h4>Ataques Pasivos</h4>
+                        </div>
+                        <p class="technique-description">Observan sin alterar el sistema</p>
+                        <ul class="technique-list">
+                            <li><i class="fas fa-check"></i> Sniffing (captura de paquetes)</li>
+                            <li><i class="fas fa-check"></i> Eavesdropping (escucha)</li>
+                            <li><i class="fas fa-check"></i> Análisis de tráfico</li>
+                        </ul>
+                        <div class="technique-feature">
+                            <i class="fas fa-ghost"></i>
+                            <span>Difíciles de detectar</span>
+                        </div>
+                    </div>
+
+                    <div class="technique-divider">
+                        <span>VS</span>
+                    </div>
+
+                    <div class="technique-card active">
+                        <div class="technique-header">
+                            <i class="fas fa-bomb"></i>
+                            <h4>Ataques Activos</h4>
+                        </div>
+                        <p class="technique-description">Modifican o interfieren con el sistema</p>
+                        <ul class="technique-list">
+                            <li><i class="fas fa-check"></i> Malware (virus, troyanos)</li>
+                            <li><i class="fas fa-check"></i> Phishing (engaño)</li>
+                            <li><i class="fas fa-check"></i> DoS/DDoS (denegación de servicio)</li>
+                        </ul>
+                        <div class="technique-feature">
+                            <i class="fas fa-bell"></i>
+                            <span>Más fáciles de detectar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preguntas Guiadas -->
+            <div class="guided-questions fade-in">
+                <h3 class="subsection-title">
+                    <i class="fas fa-comments"></i>
+                    Preguntas para Discusión
+                </h3>
+                <div class="questions-grid">
+                    <div class="question-card">
+                        <div class="question-number">1</div>
+                        <p>¿Por qué los ataques pasivos son más difíciles de detectar?</p>
+                        <div class="question-hint">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Pista: No dejan rastros evidentes</span>
+                        </div>
+                    </div>
+                    <div class="question-card">
+                        <div class="question-number">2</div>
+                        <p>¿Cuál de los tres objetivos (C-I-D) es más crítico para una empresa?</p>
+                        <div class="question-hint">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Pista: Depende del tipo de negocio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ataques a Usuarios Section -->
+    <section id="ataques" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-users"></i>
+                Ataques a Usuarios
+            </h2>
+            <p class="section-intro fade-in">Los ataques más comunes dirigidos a personas</p>
+
+            <div class="attacks-grid fade-in">
+                <!-- Phishing -->
+                <div class="attack-card phishing">
+                    <div class="attack-header">
+                        <div class="attack-icon">
+                            <i class="fas fa-fish"></i>
+                        </div>
+                        <h3>Phishing</h3>
+                        <span class="attack-badge high">Alta Frecuencia</span>
+                    </div>
+                    <p class="attack-description">Engaño por correo electrónico o sitio web falso</p>
+                    <div class="attack-example">
+                        <strong><i class="fas fa-exclamation-circle"></i> Ejemplo Real:</strong>
+                        <p>"Correo del banco" solicitando actualizar datos personales urgentemente</p>
+                    </div>
+                    <div class="attack-signals">
+                        <strong>Señales de alerta:</strong>
+                        <ul>
+                            <li><i class="fas fa-times-circle"></i> Dominio sospechoso</li>
+                            <li><i class="fas fa-times-circle"></i> Errores ortográficos</li>
+                            <li><i class="fas fa-times-circle"></i> Urgencia artificial</li>
+                            <li><i class="fas fa-times-circle"></i> Enlaces acortados</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Smishing -->
+                <div class="attack-card smishing">
+                    <div class="attack-header">
+                        <div class="attack-icon">
+                            <i class="fas fa-sms"></i>
+                        </div>
+                        <h3>Smishing</h3>
+                        <span class="attack-badge medium">Frecuencia Media</span>
+                    </div>
+                    <p class="attack-description">Phishing a través de mensajes SMS</p>
+                    <div class="attack-example">
+                        <strong><i class="fas fa-exclamation-circle"></i> Ejemplo Real:</strong>
+                        <p>"¡Ganaste un iPhone! Haz clic aquí para reclamarlo"</p>
+                    </div>
+                    <div class="attack-signals">
+                        <strong>Señales de alerta:</strong>
+                        <ul>
+                            <li><i class="fas fa-times-circle"></i> Premios no solicitados</li>
+                            <li><i class="fas fa-times-circle"></i> Números desconocidos</li>
+                            <li><i class="fas fa-times-circle"></i> Enlaces sospechosos</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Vishing -->
+                <div class="attack-card vishing">
+                    <div class="attack-header">
+                        <div class="attack-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h3>Vishing</h3>
+                        <span class="attack-badge medium">Frecuencia Media</span>
+                    </div>
+                    <p class="attack-description">Llamada telefónica fraudulenta</p>
+                    <div class="attack-example">
+                        <strong><i class="fas fa-exclamation-circle"></i> Ejemplo Real:</strong>
+                        <p>"Soporte técnico de Microsoft" pidiendo acceso remoto a tu computadora</p>
+                    </div>
+                    <div class="attack-signals">
+                        <strong>Señales de alerta:</strong>
+                        <ul>
+                            <li><i class="fas fa-times-circle"></i> Llamadas no solicitadas</li>
+                            <li><i class="fas fa-times-circle"></i> Presión para actuar rápido</li>
+                            <li><i class="fas fa-times-circle"></i> Solicitud de información sensible</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Shoulder Surfing -->
+                <div class="attack-card shoulder">
+                    <div class="attack-header">
+                        <div class="attack-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Shoulder Surfing</h3>
+                        <span class="attack-badge low">Baja Tecnología</span>
+                    </div>
+                    <p class="attack-description">Observación directa de información confidencial</p>
+                    <div class="attack-example">
+                        <strong><i class="fas fa-exclamation-circle"></i> Ejemplo Real:</strong>
+                        <p>Mirar por encima del hombro mientras ingresas tu PIN en un cajero automático</p>
+                    </div>
+                    <div class="attack-signals">
+                        <strong>Prevención:</strong>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Cubrir el teclado</li>
+                            <li><i class="fas fa-check-circle"></i> Estar atento al entorno</li>
+                            <li><i class="fas fa-check-circle"></i> Usar filtros de privacidad</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Keylogger -->
+                <div class="attack-card keylogger">
+                    <div class="attack-header">
+                        <div class="attack-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3>Keylogger</h3>
+                        <span class="attack-badge high">Alto Riesgo</span>
+                    </div>
+                    <p class="attack-description">Software que registra todas las teclas presionadas</p>
+                    <div class="attack-example">
+                        <strong><i class="fas fa-exclamation-circle"></i> Ejemplo Real:</strong>
+                        <p>Programa oculto que captura contraseñas de correo y banca en línea</p>
+                    </div>
+                    <div class="attack-signals">
+                        <strong>Prevención:</strong>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Antivirus actualizado</li>
+                            <li><i class="fas fa-check-circle"></i> No descargar software desconocido</li>
+                            <li><i class="fas fa-check-circle"></i> Usar teclados virtuales</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mini Actividad Práctica -->
+            <div class="practical-activity fade-in">
+                <h3 class="activity-title">
+                    <i class="fas fa-tasks"></i>
+                    Actividad Práctica: Detecta el Phishing
+                </h3>
+                <p class="activity-intro">Analiza estos dos correos y determina cuál es legítimo y cuál es phishing</p>
+                
+                <div class="email-comparison">
+                    <div class="email-card">
+                        <div class="email-header">
+                            <span class="email-label">Correo A</span>
+                        </div>
+                        <div class="email-content">
+                            <p><strong>De:</strong> seguridad@bancnacional.fi.cr</p>
+                            <p><strong>Asunto:</strong> Actualización de seguridad</p>
+                            <p class="email-body">
+                                Estimado cliente,<br><br>
+                                Como parte de nuestras mejoras de seguridad, le invitamos a revisar 
+                                las nuevas funcionalidades en su banca en línea. Puede acceder 
+                                ingresando como siempre a nuestro sitio oficial.<br><br>
+                                Saludos,<br>
+                                Banco Nacional de Costa Rica
+                            </p>
+                        </div>
+                        <div class="email-analysis">
+                            <button class="analyze-btn" onclick="analyzeEmail('A')">
+                                <i class="fas fa-search"></i> Analizar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="email-card">
+                        <div class="email-header">
+                            <span class="email-label">Correo B</span>
+                        </div>
+                        <div class="email-content">
+                            <p><strong>De:</strong> seguridad@bancnacional-cr.com</p>
+                            <p><strong>Asunto:</strong> ¡¡URGENTE!! Su cuenta será bloqueada</p>
+                            <p class="email-body">
+                                Estimado cliente,<br><br>
+                                Detectamos actividad sospechosa en su cuenta. DEBE actualizar 
+                                sus datos INMEDIATAMENTE haciendo clic aquí: 
+                                <a href="#">http://bit.ly/bn-update</a><br><br>
+                                Si no actualiza en 24 horas, su cuenta será BLOQUEADA.<br><br>
+                                Departamento de Seguridad
+                            </p>
+                        </div>
+                        <div class="email-analysis">
+                            <button class="analyze-btn" onclick="analyzeEmail('B')">
+                                <i class="fas fa-search"></i> Analizar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="analysisResult" class="analysis-result" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ataques a Sistemas Section -->
+    <section class="section section-dark">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-network-wired"></i>
+                Ataques a Sistemas y Redes
+            </h2>
+            <p class="section-intro fade-in">Amenazas técnicas que comprometen infraestructuras completas</p>
+
+            <div class="system-attacks-grid fade-in">
+                <!-- DoS/DDoS -->
+                <div class="system-attack-card">
+                    <div class="system-attack-header">
+                        <i class="fas fa-bomb"></i>
+                        <h3>DoS / DDoS</h3>
+                    </div>
+                    <p class="system-attack-type">Denegación de Servicio</p>
+                    <p class="system-attack-description">
+                        Sobrecargar un servidor con peticiones falsas hasta hacerlo inaccesible
+                    </p>
+                    <div class="system-attack-example">
+                        <i class="fas fa-history"></i>
+                        <strong>Caso Real:</strong>
+                        <p>Ataque a GitHub en 2018 - 1.35 Tbps de tráfico</p>
+                    </div>
+                    <div class="system-attack-impact">
+                        <span class="impact-badge critical">Impacto Crítico</span>
+                        <p>Servicios completamente inaccesibles</p>
+                    </div>
+                </div>
+
+                <!-- Malware -->
+                <div class="system-attack-card">
+                    <div class="system-attack-header">
+                        <i class="fas fa-virus"></i>
+                        <h3>Malware</h3>
+                    </div>
+                    <p class="system-attack-type">Software Malicioso</p>
+                    <p class="system-attack-description">
+                        Virus, gusanos, troyanos, ransomware y spyware que infectan sistemas
+                    </p>
+                    <div class="system-attack-example">
+                        <i class="fas fa-history"></i>
+                        <strong>Caso Real:</strong>
+                        <p>WannaCry (2017) - Afectó 200,000+ computadoras en 150 países</p>
+                    </div>
+                    <div class="system-attack-impact">
+                        <span class="impact-badge critical">Impacto Crítico</span>
+                        <p>Pérdida de datos, cifrado de archivos</p>
+                    </div>
+                </div>
+
+                <!-- MITM -->
+                <div class="system-attack-card">
+                    <div class="system-attack-header">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>Man-in-the-Middle</h3>
+                    </div>
+                    <p class="system-attack-type">Interceptación de Comunicaciones</p>
+                    <p class="system-attack-description">
+                        Interceptar y potencialmente alterar comunicaciones entre dos partes
+                    </p>
+                    <div class="system-attack-example">
+                        <i class="fas fa-history"></i>
+                        <strong>Caso Real:</strong>
+                        <p>Wi-Fi público sin cifrado - Robo de credenciales</p>
+                    </div>
+                    <div class="system-attack-impact">
+                        <span class="impact-badge high">Impacto Alto</span>
+                        <p>Robo de información sensible en tránsito</p>
+                    </div>
+                </div>
+
+                <!-- SQL Injection -->
+                <div class="system-attack-card">
+                    <div class="system-attack-header">
+                        <i class="fas fa-database"></i>
+                        <h3>SQL Injection</h3>
+                    </div>
+                    <p class="system-attack-type">Inyección de Código</p>
+                    <p class="system-attack-description">
+                        Insertar código SQL malicioso en formularios para acceder a bases de datos
+                    </p>
+                    <div class="system-attack-example">
+                        <i class="fas fa-history"></i>
+                        <strong>Caso Real:</strong>
+                        <p>Robo masivo de datos de clientes en tiendas online</p>
+                    </div>
+                    <div class="system-attack-impact">
+                        <span class="impact-badge critical">Impacto Crítico</span>
+                        <p>Acceso completo a bases de datos</p>
+                    </div>
+                </div>
+
+                <!-- Brute Force -->
+                <div class="system-attack-card">
+                    <div class="system-attack-header">
+                        <i class="fas fa-key"></i>
+                        <h3>Brute Force</h3>
+                    </div>
+                    <p class="system-attack-type">Fuerza Bruta</p>
+                    <p class="system-attack-description">
+                        Probar sistemáticamente todas las combinaciones posibles de contraseñas
+                    </p>
+                    <div class="system-attack-example">
+                        <i class="fas fa-history"></i>
+                        <strong>Caso Real:</strong>
+                        <p>Ataques automatizados a cuentas SSH y FTP</p>
+                    </div>
+                    <div class="system-attack-impact">
+                        <span class="impact-badge medium">Impacto Medio</span>
+                        <p>Acceso no autorizado a cuentas</p>
+                    </div>
+                </div>
+
+                <!-- Zero-Day -->
+                <div class="system-attack-card">
+                    <div class="system-attack-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Zero-Day</h3>
+                    </div>
+                    <p class="system-attack-type">Vulnerabilidad Desconocida</p>
+                    <p class="system-attack-description">
+                        Explotar fallos de seguridad antes de que exista un parche disponible
+                    </p>
+                    <div class="system-attack-example">
+                        <i class="fas fa-history"></i>
+                        <strong>Caso Real:</strong>
+                        <p>Vulnerabilidades críticas en Windows y navegadores</p>
+                    </div>
+                    <div class="system-attack-impact">
+                        <span class="impact-badge critical">Impacto Crítico</span>
+                        <p>Sin defensa hasta que se cree el parche</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reflexión Grupal -->
+            <div class="reflection-box fade-in">
+                <div class="reflection-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Reflexión Grupal</h3>
+                <p class="reflection-question">
+                    ¿Cuál de estos ataques creen que es más común hoy en día y por qué?
+                </p>
+                <div class="reflection-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>El ransomware aumentó 150% en 2023</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>El 90% de ciberataques comienzan con phishing</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Un ataque DDoS ocurre cada 5 minutos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Defensa Section -->
+    <section id="defensa" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-shield-alt"></i>
+                Defensa y Contramedidas
+            </h2>
+            <p class="section-intro fade-in">Buenas prácticas para proteger tu información</p>
+
+            <div class="defense-grid fade-in">
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Actualizar Software</h3>
+                    <p>Mantén tu sistema operativo y aplicaciones siempre actualizados con los últimos parches de seguridad</p>
+                    <div class="defense-importance high">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Crítica</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>Verificar Enlaces</h3>
+                    <p>No abras enlaces de fuentes desconocidas. Verifica siempre el dominio antes de hacer clic</p>
+                    <div class="defense-importance high">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Crítica</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3>Antivirus Activo</h3>
+                    <p>Usa un antivirus confiable y mantén el firewall activado en todo momento</p>
+                    <div class="defense-importance high">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Alta</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Autenticación 2FA</h3>
+                    <p>Activa la verificación en dos pasos en todas tus cuentas importantes</p>
+                    <div class="defense-importance high">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Crítica</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Contraseñas Robustas</h3>
+                    <p>Crea contraseñas únicas, largas y complejas. Usa un gestor de contraseñas</p>
+                    <div class="defense-importance high">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Crítica</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-hdd"></i>
+                    </div>
+                    <h3>Respaldos (Backup)</h3>
+                    <p>Realiza copias de seguridad periódicas de tu información importante</p>
+                    <div class="defense-importance medium">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Alta</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>VPN en Redes Públicas</h3>
+                    <p>Usa una VPN cuando te conectes a redes Wi-Fi públicas para cifrar tu tráfico</p>
+                    <div class="defense-importance medium">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Media</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <div class="defense-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Educación Continua</h3>
+                    <p>Mantente informado sobre las últimas amenazas y técnicas de protección</p>
+                    <div class="defense-importance medium">
+                        <i class="fas fa-star"></i>
+                        <span>Importancia: Media</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Strength Checker -->
+            <div class="password-checker fade-in">
+                <h3 class="checker-title">
+                    <i class="fas fa-key"></i>
+                    Verificador de Contraseñas
+                </h3>
+                <p>Prueba qué tan segura es tu contraseña</p>
+                <div class="checker-input">
+                    <input type="password" id="passwordInput" placeholder="Ingresa una contraseña de prueba">
+                    <button onclick="togglePassword()">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+                <div id="passwordStrength" class="password-strength"></div>
+                <div class="password-tips">
+                    <h4>Consejos para una contraseña fuerte:</h4>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Mínimo 12 caracteres</li>
+                        <li><i class="fas fa-check"></i> Combina mayúsculas y minúsculas</li>
+                        <li><i class="fas fa-check"></i> Incluye números y símbolos</li>
+                        <li><i class="fas fa-check"></i> Evita palabras del diccionario</li>
+                        <li><i class="fas fa-check"></i> No uses información personal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Debate -->
+            <div class="debate-box fade-in">
+                <div class="debate-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h3>Debate Rápido</h3>
+                <p class="debate-question">
+                    ¿El eslabón más débil en la ciberseguridad es el usuario o la tecnología?
+                </p>
+                <div class="debate-options">
+                    <div class="debate-option">
+                        <i class="fas fa-user"></i>
+                        <h4>El Usuario</h4>
+                        <p>El 95% de las brechas de seguridad involucran error humano</p>
+                    </div>
+                    <div class="debate-vs">VS</div>
+                    <div class="debate-option">
+                        <i class="fas fa-laptop-code"></i>
+                        <h4>La Tecnología</h4>
+                        <p>Las vulnerabilidades de software son explotadas constantemente</p>
+                    </div>
+                </div>
+                <p class="debate-conclusion">
+                    <strong>Realidad:</strong> Ambos son importantes. La mejor defensa combina tecnología robusta 
+                    con usuarios educados y conscientes de la seguridad.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Caso Práctico Section -->
+    <section id="caso-practico" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title fade-in">
+                <i class="fas fa-briefcase"></i>
+                Caso Práctico Grupal
+            </h2>
+            <p class="section-intro fade-in">Analiza y resuelve un incidente de seguridad real</p>
+
+            <div class="case-study fade-in">
+                <div class="case-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Escenario: Ataque de Ransomware en Empresa</h3>
+                </div>
+                
+                <div class="case-scenario">
+                    <h4><i class="fas fa-file-alt"></i> Situación</h4>
+                    <p>
+                        Una empresa mediana recibe un correo electrónico aparentemente de un proveedor conocido. 
+                        Un empleado del departamento de contabilidad descarga un archivo adjunto llamado 
+                        "Factura_Pendiente.pdf.exe". Minutos después, los archivos de la red comienzan a cifrarse 
+                        y aparece un mensaje exigiendo un rescate de $50,000 en Bitcoin.
+                    </p>
+                </div>
+
+                <div class="case-tasks">
+                    <h4><i class="fas fa-tasks"></i> Tareas para Subgrupos</h4>
+                    <div class="tasks-grid">
+                        <div class="task-card">
+                            <div class="task-number">1</div>
+                            <h5>Identificar el Ataque</h5>
+                            <p>¿Qué tipo de ataque es este? ¿Qué técnicas se utilizaron?</p>
+                            <div class="task-hints">
+                                <button class="hint-btn" onclick="showHint(1)">
+                                    <i class="fas fa-lightbulb"></i> Ver pista
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="task-card">
+                            <div class="task-number">2</div>
+                            <h5>Determinar el Impacto</h5>
+                            <p>¿Qué elementos de la tríada CIA se vieron afectados?</p>
+                            <div class="task-hints">
+                                <button class="hint-btn" onclick="showHint(2)">
+                                    <i class="fas fa-lightbulb"></i> Ver pista
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="task-card">
+                            <div class="task-number">3</div>
+                            <h5>Proponer Soluciones</h5>
+                            <p>Sugiere tres acciones inmediatas para contener y prevenir</p>
+                            <div class="task-hints">
+                                <button class="hint-btn" onclick="showHint(3)">
+                                    <i class="fas fa-lightbulb"></i> Ver pista
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-questions">
+                    <h4><i class="fas fa-comments"></i> Preguntas de Discusión</h4>
+                    <div class="discussion-questions">
+                        <div class="discussion-item">
+                            <i class="fas fa-question-circle"></i>
+                            <p>¿Qué señales debieron alertar al empleado antes de abrir el archivo?</p>
+                        </div>
+                        <div class="discussion-item">
+                            <i class="fas fa-question-circle"></i>
+                            <p>¿Qué plan de acción debe tener la empresa ante un incidente similar?</p>
+                        </div>
+                        <div class="discussion-item">
+                            <i class="fas fa-question-circle"></i>
+                            <p>¿Deberían pagar el rescate? ¿Por qué sí o por qué no?</p>
+                        </div>
+                        <div class="discussion-item">
+                            <i class="fas fa-question-circle"></i>
+                            <p>¿Qué medidas preventivas pudieron evitar este ataque?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hintDisplay" class="hint-display" style="display: none;"></div>
+
+                <!-- Solución Modelo -->
+                <div class="case-solution">
+                    <button class="solution-btn" onclick="toggleSolution()">
+                        <i class="fas fa-unlock-alt"></i>
+                        Ver Solución Modelo
+                    </button>
+                    <div id="solutionContent" class="solution-content" style="display: none;">
+                        <h4>Análisis Completo del Caso</h4>
+                        
+                        <div class="solution-section">
+                            <h5><i class="fas fa-search"></i> Identificación del Ataque</h5>
+                            <ul>
+                                <li><strong>Tipo:</strong> Ransomware (Malware)</li>
+                                <li><strong>Vector:</strong> Phishing por correo electrónico</li>
+                                <li><strong>Técnica:</strong> Ingeniería social + archivo ejecutable disfrazado</li>
+                            </ul>
+                        </div>
+
+                        <div class="solution-section">
+                            <h5><i class="fas fa-bullseye"></i> Impacto en la Tríada CIA</h5>
+                            <ul>
+                                <li><strong>Confidencialidad:</strong> Comprometida (archivos accesibles por atacante)</li>
+                                <li><strong>Integridad:</strong> Severamente afectada (archivos cifrados/alterados)</li>
+                                <li><strong>Disponibilidad:</strong> Crítica (archivos inaccesibles)</li>
+                            </ul>
+                        </div>
+
+                        <div class="solution-section">
+                            <h5><i class="fas fa-first-aid"></i> Acciones Inmediatas</h5>
+                            <ol>
+                                <li><strong>Contención:</strong> Aislar sistemas infectados de la red inmediatamente</li>
+                                <li><strong>Preservación:</strong> No apagar equipos, preservar evidencia forense</li>
+                                <li><strong>Comunicación:</strong> Notificar a TI, gerencia y autoridades</li>
+                                <li><strong>Recuperación:</strong> Restaurar desde backups (si existen)</li>
+                                <li><strong>Análisis:</strong> Identificar alcance del ataque</li>
+                            </ol>
+                        </div>
+
+                        <div class="solution-section">
+                            <h5><i class="fas fa-shield-alt"></i> Medidas Preventivas</h5>
+                            <ul>
+                                <li>Capacitación continua en ciberseguridad para empleados</li>
+                                <li>Filtros de correo y antivirus empresarial</li>
+                                <li>Backups automáticos y aislados (regla 3-2-1)</li>
+                                <li>Política de privilegios mínimos</li>
+                                <li>Segmentación de red</li>
+                                <li>Plan de respuesta a incidentes documentado</li>
+                            </ul>
+                        </div>
+
+                        <div class="solution-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Importante:</strong> NO se recomienda pagar el rescate. No garantiza recuperación 
+                            de datos y financia actividades criminales.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion Section -->
+    <section class="section conclusion-section">
+        <div class="container">
+            <div class="conclusion-content fade-in">
+                <div class="conclusion-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2>Conclusiones Clave</h2>
+                <div class="key-takeaways">
+                    <div class="takeaway-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>La ciberseguridad es responsabilidad de todos, no solo del departamento de TI</p>
+                    </div>
+                    <div class="takeaway-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>La prevención es más efectiva y económica que la recuperación</p>
+                    </div>
+                    <div class="takeaway-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>La educación continua es la mejor defensa contra ataques de ingeniería social</p>
+                    </div>
+                    <div class="takeaway-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Un enfoque en capas (defensa en profundidad) es esencial</p>
+                    </div>
+                </div>
+                
+                <div class="final-quote">
+                    <i class="fas fa-quote-left"></i>
+                    <p>La seguridad no es un producto, sino un proceso continuo</p>
+                    <span>- Bruce Schneier, Experto en Ciberseguridad</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault()
+            const target = document.querySelector(this.getAttribute("href"))
+            if (target) {
+              target.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              })
+            }
+          })
+        })
+
+        // Fade in animation on scroll
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible")
+            }
+          })
+        }, observerOptions)
+
+        document.querySelectorAll(".fade-in").forEach((el) => {
+          observer.observe(el)
+        })
+
+        // Navbar background on scroll
+        window.addEventListener("scroll", () => {
+          const navbar = document.querySelector(".navbar")
+          if (window.scrollY > 100) {
+            navbar.style.background = "rgba(255, 255, 255, 0.98)"
+            navbar.style.boxShadow = "0 2px 20px rgba(0,0,0,0.1)"
+          } else {
+            navbar.style.background = "rgba(255, 255, 255, 0.95)"
+            navbar.style.boxShadow = "0 2px 10px rgba(0,0,0,0.05)"
+          }
+        })
+
+        // Email Analysis Function
+        function analyzeEmail(email) {
+          const resultDiv = document.getElementById("analysisResult")
+          resultDiv.style.display = "block"
+
+          if (email === "A") {
+            resultDiv.innerHTML = `
+                    <div style="background: #f0fff4; padding: 2rem; border-radius: 15px; border-left: 5px solid #48bb78;">
+                        <h4 style="color: #48bb78; margin-bottom: 1rem;">
+                            <i class="fas fa-check-circle"></i> ¡Correcto! Este es LEGÍTIMO
+                        </h4>
+                        <p><strong>Señales positivas:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>✓ Dominio oficial: bancnacional.fi.cr</li>
+                            <li>✓ No hay urgencia artificial</li>
+                            <li>✓ No solicita información sensible</li>
+                            <li>✓ No contiene enlaces sospechosos</li>
+                            <li>✓ Redacción profesional sin errores</li>
+                        </ul>
+                    </div>
+                `
+          } else {
+            resultDiv.innerHTML = `
+                    <div style="background: #fff5f5; padding: 2rem; border-radius: 15px; border-left: 5px solid #f56565;">
+                        <h4 style="color: #f56565; margin-bottom: 1rem;">
+                            <i class="fas fa-exclamation-triangle"></i> ¡Alerta! Este es PHISHING
+                        </h4>
+                        <p><strong>Señales de alerta detectadas:</strong></p>
+                        <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                            <li>✗ Dominio sospechoso: bancnacional-cr.com (no es el oficial)</li>
+                            <li>✗ Urgencia excesiva: "URGENTE", "INMEDIATAMENTE"</li>
+                            <li>✗ Amenaza de bloqueo de cuenta</li>
+                            <li>✗ Enlace acortado sospechoso (bit.ly)</li>
+                            <li>✗ Uso excesivo de mayúsculas</li>
+                            <li>✗ Presión para actuar en 24 horas</li>
+                        </ul>
+                        <p style="margin-top: 1rem; font-weight: 600;">
+                            <i class="fas fa-shield-alt"></i> Nunca hagas clic en enlaces de correos sospechosos. 
+                            Siempre accede directamente al sitio oficial escribiendo la URL en tu navegador.
+                        </p>
+                    </div>
+                `
+          }
+
+          resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" })
+        }
+
+        // Password Strength Checker
+        const passwordInput = document.getElementById("passwordInput")
+        if (passwordInput) {
+          passwordInput.addEventListener("input", function () {
+            const password = this.value
+            const strengthDiv = document.getElementById("passwordStrength")
+
+            if (password.length === 0) {
+              strengthDiv.innerHTML = ""
+              return
+            }
+
+            let strength = 0
+            const feedback = []
+
+            // Length check
+            if (password.length >= 12) {
+              strength += 25
+            } else if (password.length >= 8) {
+              strength += 15
+              feedback.push("Aumenta la longitud a 12+ caracteres")
+            } else {
+              strength += 5
+              feedback.push("Muy corta (mínimo 12 caracteres)")
+            }
+
+            // Uppercase check
+            if (/[A-Z]/.test(password)) {
+              strength += 20
+            } else {
+              feedback.push("Agrega letras mayúsculas")
+            }
+
+            // Lowercase check
+            if (/[a-z]/.test(password)) {
+              strength += 20
+            } else {
+              feedback.push("Agrega letras minúsculas")
+            }
+
+            // Number check
+            if (/[0-9]/.test(password)) {
+              strength += 20
+            } else {
+              feedback.push("Agrega números")
+            }
+
+            // Special character check
+            if (/[^A-Za-z0-9]/.test(password)) {
+              strength += 15
+            } else {
+              feedback.push("Agrega símbolos especiales")
+            }
+
+            // Display result
+            let color, text
+            if (strength < 40) {
+              color = "#f56565"
+              text = "Muy Débil"
+            } else if (strength < 60) {
+              color = "#ed8936"
+              text = "Débil"
+            } else if (strength < 80) {
+              color = "#ecc94b"
+              text = "Media"
+            } else if (strength < 95) {
+              color = "#48bb78"
+              text = "Fuerte"
+            } else {
+              color = "#38a169"
+              text = "Muy Fuerte"
+            }
+
+            strengthDiv.style.background = color
+            strengthDiv.style.color = "white"
+            strengthDiv.innerHTML = `
+                    <strong>${text}</strong> (${strength}%)
+                    ${feedback.length > 0 ? "<br><small>" + feedback.join(", ") + "</small>" : ""}
+                `
+          })
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+          const input = document.getElementById("passwordInput")
+          const icon = document.getElementById("eyeIcon")
+
+          if (input.type === "password") {
+            input.type = "text"
+            icon.classList.remove("fa-eye")
+            icon.classList.add("fa-eye-slash")
+          } else {
+            input.type = "password"
+            icon.classList.remove("fa-eye-slash")
+            icon.classList.add("fa-eye")
+          }
+        }
+
+        // Show hints for case study
+        function showHint(taskNumber) {
+          const hintDisplay = document.getElementById("hintDisplay")
+          hintDisplay.style.display = "block"
+
+          const hints = {
+            1: `
+                    <h4><i class="fas fa-lightbulb"></i> Pista para Tarea 1</h4>
+                    <p>Piensa en:</p>
+                    <ul>
+                        <li>¿Qué tipo de archivo se descargó? (.exe es ejecutable)</li>
+                        <li>¿Cómo llegó el archivo? (correo electrónico)</li>
+                        <li>¿Qué sucedió después? (cifrado de archivos + rescate)</li>
+                    </ul>
+                    <p><strong>Respuesta:</strong> Es un ataque de <strong>Ransomware</strong> (tipo de malware) 
+                    distribuido mediante <strong>Phishing</strong> por correo electrónico.</p>
+                `,
+            2: `
+                    <h4><i class="fas fa-lightbulb"></i> Pista para Tarea 2</h4>
+                    <p>Analiza cada elemento de la tríada CIA:</p>
+                    <ul>
+                        <li><strong>Confidencialidad:</strong> ¿Los atacantes pueden ver los datos?</li>
+                        <li><strong>Integridad:</strong> ¿Los datos fueron modificados?</li>
+                        <li><strong>Disponibilidad:</strong> ¿Se puede acceder a los datos?</li>
+                    </ul>
+                    <p><strong>Respuesta:</strong> Los tres elementos están comprometidos, pero 
+                    <strong>Disponibilidad</strong> es el más crítico (archivos completamente inaccesibles).</p>
+                `,
+            3: `
+                    <h4><i class="fas fa-lightbulb"></i> Pista para Tarea 3</h4>
+                    <p>Piensa en acciones inmediatas y preventivas:</p>
+                    <ul>
+                        <li><strong>Contención:</strong> ¿Cómo evitar que se propague?</li>
+                        <li><strong>Recuperación:</strong> ¿Cómo restaurar los datos?</li>
+                        <li><strong>Prevención:</strong> ¿Cómo evitar futuros ataques?</li>
+                    </ul>
+                    <p><strong>Sugerencias:</strong></p>
+                    <ol>
+                        <li>Aislar inmediatamente los sistemas infectados de la red</li>
+                        <li>Restaurar archivos desde backups (si existen)</li>
+                        <li>Implementar capacitación en ciberseguridad para empleados</li>
+                    </ol>
+                `,
+          }
+
+          hintDisplay.innerHTML = hints[taskNumber]
+          hintDisplay.scrollIntoView({ behavior: "smooth", block: "nearest" })
+        }
+
+        // Toggle solution visibility
+        function toggleSolution() {
+          const solutionContent = document.getElementById("solutionContent")
+          const button = document.querySelector(".solution-btn")
+
+          if (solutionContent.style.display === "none" || solutionContent.style.display === "") {
+            solutionContent.style.display = "block"
+            button.innerHTML = '<i class="fas fa-lock"></i> Ocultar Solución'
+            solutionContent.scrollIntoView({ behavior: "smooth", block: "nearest" })
+          } else {
+            solutionContent.style.display = "none"
+            button.innerHTML = '<i class="fas fa-unlock-alt"></i> Ver Solución Modelo'
+          }
+        }
+
+        // Create particles effect
+        function createParticles() {
+          const particlesContainer = document.getElementById("particles")
+          if (!particlesContainer) return
+
+          for (let i = 0; i < 50; i++) {
+            const particle = document.createElement("div")
+            particle.style.position = "absolute"
+            particle.style.width = Math.random() * 5 + "px"
+            particle.style.height = particle.style.width
+            particle.style.background = "rgba(255,255,255,0.5)"
+            particle.style.borderRadius = "50%"
+            particle.style.left = Math.random() * 100 + "%"
+            particle.style.top = Math.random() * 100 + "%"
+            particle.style.animation = `float ${Math.random() * 10 + 5}s ease-in-out infinite`
+            particle.style.animationDelay = Math.random() * 5 + "s"
+            particlesContainer.appendChild(particle)
+          }
+        }
+
+        // Initialize particles on load
+        window.addEventListener("load", createParticles)
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn")
+        if (mobileMenuBtn) {
+          mobileMenuBtn.addEventListener("click", () => {
+            const navLinks = document.querySelector(".nav-links")
+            navLinks.style.display = navLinks.style.display === "flex" ? "none" : "flex"
+          })
+        }
+    </script>
+</body>
+</html>
